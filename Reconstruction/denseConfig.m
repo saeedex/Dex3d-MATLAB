@@ -1,7 +1,7 @@
 function config = denseConfig(config)
 %%---- Stacy
 config.sdepth.mode                  = 'read';
-config.sdepth.sparsity              = 1; 
+config.sdepth.sparsity              = 2; 
 config.sdepth.rescale               = 0; 
 config.sdepth.edge.apply            = 1;
 config.sdepth.edge.threshold        = 0.5/255;

@@ -4,7 +4,7 @@ config.dataset.path         = [pwd '\Dataset\'];
 config.dataset.name         = 'statue01'; % 'deskhx' 'dinohx' 'cupshx' 'cupscp' 'cupsdp' 'toysdp' 'bridgezed'
 config.dataset.imresize     = 1;
 config.dataset.rotate       = -90; 
-config.dataset.maxz         = 8;
+config.dataset.maxz         = 3;
 frames                      = setframepath(config);
 
 %% Sparse Reconstruction
