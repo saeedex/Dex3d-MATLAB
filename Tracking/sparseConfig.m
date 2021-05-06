@@ -47,7 +47,7 @@ elseif strcmp(config.smatch.feature, 'ORB')
 config.smatch.detector              = cv.ORB('MaxFeatures', 10000); 
 config.smatch.matcher               = cv.DescriptorMatcher('FlannBasedMatcher', 'Index',{'LSH', 'TableNumber', 12, 'KeySize', 20, 'MultiProbeLevel',2});
 elseif strcmp(config.smatch.feature, 'AKAZE')
-config.smatch.detector              = cv.AKAZE('Threshold', 1e-3);
+config.smatch.detector              = cv.AKAZE('Threshold', 1e-4);
 config.smatch.matcher               = cv.DescriptorMatcher('BruteForce-Hamming');
 % config.smatch.matcher               = cv.DescriptorMatcher('FlannBasedMatcher', 'Index',{'LSH', 'TableNumber',12, 'KeySize',20, 'MultiProbeLevel',2});
 end

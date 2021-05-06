@@ -1,7 +1,7 @@
 close all; clear all; clc; warning('off')
 %% Setting up
-config.dataset.path         = 'E:\Work\MATLAB\VSLAM\Platform\Dataset\ARCore\'; % dataset path (only change this directory)
-config.dataset.name         = 'ARCore Depth 03'; % 'deskhx' 'dinohx' 'cupshx' 'cupscp' 'cupsdp' 'toysdp' 'bridgezed'
+config.dataset.path         = [pwd '\Dataset\'];
+config.dataset.name         = 'statue01'; % 'deskhx' 'dinohx' 'cupshx' 'cupscp' 'cupsdp' 'toysdp' 'bridgezed'
 config.dataset.imresize     = 1;
 config.dataset.rotate       = -90; 
 config.dataset.maxz         = 8;
