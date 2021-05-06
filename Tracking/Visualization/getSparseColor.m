@@ -1,0 +1,9 @@
+function str = getSparseColor(str, colimage, mpos)
+mpos                            = round(mpos);
+idx                             = (mpos(1,:)-1)*size(colimage,1)+mpos(2,:);
+R                               = colimage(:,:,1);
+G                               = colimage(:,:,2);
+B                               = colimage(:,:,3);
+str(4,:)                        = R(idx);
+str(5,:)                        = G(idx);
+str(6,:)                        = B(idx);
