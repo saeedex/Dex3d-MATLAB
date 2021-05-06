@@ -1,0 +1,15 @@
+function mI = subpixelSAD(mimage, smpos, sadpat, rad)
+fmpos               = floor(smpos);
+cmpos               = ceil(smpos);
+mpos1               = fmpos;
+mpos2               = [fmpos(:,1) cmpos(:,2)];
+mpos3               = [cmpos(:,1) fmpos(:,2)];
+mpos4               = cmpos;
+mI1                 = extractsaddsc(mimage, mpos1, sadpat, rad);
+mI2                 = extractsaddsc(mimage, mpos2, sadpat, rad);
+mI3                 = extractsaddsc(mimage, mpos3, sadpat, rad);
+mI4                 = extractsaddsc(mimage, mpos4, sadpat, rad);
+dmpos               = smpos - fmpos;     
+Vx1                 = (1-dmpos(:,1)).*mI1 + (dmpos(:,1).*mI3);
+Vx2                 = (1-dmpos(:,1)).*mI2 + (dmpos(:,1).*mI4);
+mI                  = (1-dmpos(:,2)).*Vx1 + (dmpos(:,2).*Vx2);
