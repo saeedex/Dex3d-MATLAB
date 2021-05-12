@@ -8,8 +8,8 @@ config.dataset.maxz         = 3;
 frames                      = setframepath(config);
 
 %% Sparse Reconstruction
-config.run.srec             = 0;
-config.save.srec            = 0;
+config.run.srec             = 1;
+config.save.srec            = 1;
 config                      = sparseConfig(config);
 frames                      = importARCore(frames, config);
 [Images, frames]            = loadFrames(frames, config);
