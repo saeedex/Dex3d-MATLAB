@@ -1,35 +1,39 @@
-function [ptCloud, Images] = depthfusion(dViews, Views, Images, frames, config)
-vtresh                  = config.mdepth.filter.minvis;
-geotresh                = config.mdepth.filter.geotresh;
-maxz                    = config.dataset.maxz;
-
-for j = 1:length(frames.regcams)
+function [ptCloud, Images] = depthfusion(dViews, SparseMap, Images, config)
+Views                   = SparseMap.Views;
+frames                  = SparseMap.frames;
+pcl                     = [];
+for j = 1:length(frames.regcams) 
 kf                      = frames.regcams(j);
-[Images, indepth]       = pcl2depth(dViews, Views, Images, frames, kf, config); 
-
+dViews                  = pclfilter(dViews, Views, frames, kf, config);
+Images                  = pcl2depth(dViews, Views, Images, frames, kf, config); 
 valid                   = dViews{kf}.valid;
-vis                     = dViews{kf}.vis';
-mres                    = dViews{kf}.res;
-kpcl                    = dViews{kf}.pcl;
-
-valid(vis < vtresh)     = false;    
-if geotresh ~= 0
-valid(isnan(mres))      = false;
-valid(mres>geotresh)    = false;                                            
+map                     = dViews{kf}.map(:,1);
+valid(map~=0)           = false;
+kpcl                    = dViews{kf}.pcl(:,valid);
+vis                     = dViews{kf}.vis(valid);
+%% Mapping info
+if ~isempty(kpcl)
+kdidx                 	= dViews{kf}.map(valid,2);
+mf                    	= kf;
+mdidx                   = kdidx;
+for jj = 1:max(vis)-1
+mpos                    = dViews{mf}.pos(mdidx,:);
+mdidx                  	= dViews{mf}.map(mdidx,1);
+mvalid                 	= mdidx~=0;
+mdidx                 	= mdidx(mvalid);
+kdidx                   = kdidx(mvalid);
+mf                      = kf + jj; 
 end
-
-kpose                   = invertPoses(Views{kf}.pose);
-[~,~,iz]                = projectPoints(frames.K, kpose, kpcl(1:3,:));
-indepth                 = logical((iz > 1/config.dataset.maxz).*(iz > 0));
-valid(~indepth)         = false;
-
 %% Merging
-kptCloud                = pointCloud(kpcl(1:3,valid)', 'Color', kpcl(4:6,valid)');
-
-if j == 1
-ptCloud                 = pointCloud(kpcl(1:3,valid)', 'Color', kpcl(4:6,valid)');
-else
-ptCloud                 = pcmerge(ptCloud, kptCloud, 0.001);
+pcl                     = [pcl kpcl];
 end
+% if j == 1
+% ptCloud                 = pointCloud(kpcl(1:3,:)', 'Normal', kpcl(4:6,:)', 'Color', kpcl(7:9,:)');
+% else
+% kptCloud                = pointCloud(kpcl(1:3,:)', 'Normal', kpcl(4:6,:)', 'Color', kpcl(7:9,:)');
+% ptCloud                 = pcmerge(ptCloud, kptCloud, 0.001);
+% end
 end
+ptCloud                 = pointCloud(pcl(1:3,:)', 'Normal', pcl(4:6,:)', 'Color', pcl(7:9,:)');
 figure(2); pcshow(ptCloud);
+ptCloud

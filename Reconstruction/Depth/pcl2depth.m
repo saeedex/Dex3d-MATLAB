@@ -1,14 +1,10 @@
-function [Images, indepth] = pcl2depth(dViews, Views, Images, frames, kf, config)
-vtresh                  = config.mdepth.filter.minvis;
-vis                     = dViews{kf}.vis';
-valid                   = vis >= vtresh;
+function Images = pcl2depth(dViews, Views, Images, frames, kf, config)
+valid                   = dViews{kf}.valid;
 kpcl                    = dViews{kf}.pcl(:,valid);
-idx                     = dViews{kf}.idx(valid);
+idx                     = dViews{kf}.map(valid,2);
 kpose                   = invertPoses(Views{kf}.pose);
 [~,~,iz]                = projectPoints(frames.K, kpose, kpcl(1:3,:));
-indepth                 = logical((iz > 1/config.dataset.maxz).*(iz > 0));
-idx                     = idx(indepth);
-z                       = 1./iz(indepth);
+z                       = 1./iz;
 depthmap                = zeros(size(Images{kf}.depth));
 
 for i = 1:length(idx)
@@ -21,6 +17,7 @@ end
 end
 end
 Images{kf}.mdepth       = depthmap;
+
 %% Visualization
-figure(1); imshow(imrotate(Images{kf}.colimage,-config.dataset.rotate));
-figure(3); viewdepth(depthmap, config);
+% figure(1); imshow(imrotate(Images{kf}.colimage,-config.dataset.rotate));
+% figure(3); viewdepth(depthmap, config);

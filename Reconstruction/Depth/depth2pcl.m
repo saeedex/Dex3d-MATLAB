@@ -1,7 +1,7 @@
 function dViews = depth2pcl(dViews, Views, Images, frames, kf, config)
 %% Get depth of image coordinates
 skpos                   = dViews{kf}.pos;
-kdidx                   = dViews{kf}.idx;
+kdidx                   = dViews{kf}.map(:,2);
 depth                   = Images{kf}.depth(kdidx);
 dViews{kf}.valid        = depth~=0;
 
@@ -44,9 +44,8 @@ pidx                    = (ipos(:,1)-1)*size(Images{kf}.gryimage,1)+ipos(:,2);
 col                     = [R(pidx) G(pidx) B(pidx)]';
 
 %% Convert to pcl format
-dViews{kf}.pcl          = [str; col];
-
-% ptCloud                 = pointCloud(dViews{kf}.pcl(1:3,dViews{kf}.valid)', 'Color', dViews{kf}.pcl(4:6,dViews{kf}.valid)', 'Normal', n(:,dViews{kf}.valid)');
+dViews{kf}.pcl          = [str; n; col];
+% ptCloud                 = pointCloud(dViews{kf}.pcl(1:3,dViews{kf}.valid)', 'Normal', dViews{kf}.pcl(4:6,dViews{kf}.valid)', 'Color', dViews{kf}.pcl(7:9,dViews{kf}.valid)');
 % pcshow(ptCloud); set(gca,'visible','off'); view(0, 180); 
 % pcwrite(ptCloud,'test');
 % pause

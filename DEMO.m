@@ -27,7 +27,7 @@ config                      = denseConfig(config);
 [dViews, Images]            = denseReconstruction(Images, SparseMap.frames, SparseMap, config); 
 
 %% Fusion
-[ptCloud, Images]           = depthfusion(dViews, SparseMap.Views, Images, SparseMap.frames, config);
+[ptCloud, Images]           = depthfusion(dViews, SparseMap, Images, config);
 TSDFExport(SparseMap, Images, config)
 
 savepath                    = [SparseMap.frames.path 'reconstruction\'];
