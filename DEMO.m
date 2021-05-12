@@ -1,15 +1,15 @@
 close all; clear all; clc; warning('off')
 %% Setting up
 config.dataset.path         = [pwd '\Dataset\'];
-config.dataset.name         = 'statue01'; % 'deskhx' 'dinohx' 'cupshx' 'cupscp' 'cupsdp' 'toysdp' 'bridgezed'
+config.dataset.name         = 'pagoda'; % 'deskhx' 'dinohx' 'cupshx' 'cupscp' 'cupsdp' 'toysdp' 'bridgezed'
 config.dataset.imresize     = 1;
 config.dataset.rotate       = -90; 
 config.dataset.maxz         = 3;
 frames                      = setframepath(config);
 
 %% Sparse Reconstruction
-config.run.srec             = 1;
-config.save.srec            = 1;
+config.run.srec             = 0;
+config.save.srec            = 0;
 config                      = sparseConfig(config);
 frames                      = importARCore(frames, config);
 [Images, frames]            = loadFrames(frames, config);
