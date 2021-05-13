@@ -8,27 +8,32 @@ config.dataset.maxz         = 3;
 frames                      = setframepath(config);
 
 %% Sparse Reconstruction
-config.run.srec             = 1;
-config.save.srec            = 1;
+config.run.srec             = 0;
+config.save.srec            = 0;
 config                      = sparseConfig(config);
 frames                      = importARCore(frames, config);
 [Images, frames]            = loadFrames(frames, config);
-Views                       = extractFeatures(Images, config);
+[Views, frames]             = sparseFeatures(Images, frames, config);
 SparseMap                   = sparseReconstruction(Views, Images, frames, config);
 
 %% Visualization
 config.display              = 1; 
 displayPoints(SparseMap, Images, SparseMap.frames, config, length(SparseMap.frames.regcams));
-if config.save.srec; save(frames.sparse, 'SparseMap'); saveXML(SparseMap, Images); end
+if config.save.srec; save(frames.sparse, 'SparseMap'); end
+
 %% Dense reconstruction
-close all
+close all; clc;
 config.run.drec             = 1;
 config                      = denseConfig(config);
 [dViews, Images]            = denseReconstruction(Images, SparseMap.frames, SparseMap, config); 
 
 %% Fusion
-[ptCloud, Images]           = depthfusion(dViews, SparseMap, Images, config);
-TSDFExport(SparseMap, Images, config)
+[pcl, map, Images]          = depthfusion(dViews, SparseMap, Images, config);
+ptCloud                     = pointCloud(pcl(1:3,:)', 'Normal', pcl(4:6,:)', 'Color', pcl(7:9,:)');
+figure(2); pcshow(ptCloud);
 
+%% Export
 savepath                    = [SparseMap.frames.path 'reconstruction\'];
-pcwrite(ptCloud,[savepath 'dense']);
+saveOUT(SparseMap, Images, pcl, map);
+TSDFExport(SparseMap, Images, config);
+% pcwrite(ptCloud,[savepath 'dense']);

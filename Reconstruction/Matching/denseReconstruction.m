@@ -12,7 +12,7 @@ Images{kf}.depth                    = importARdepth(Images, frames, kf, config);
 end
 
 %% Rescale depth
-[Images, frames]                    = depthrescale2(Images, SparseMap.Track, Views, frames, config);
+% [Images, frames]                    = depthrescale2(Images, SparseMap.Track, Views, frames, config);
 
 %% Initialization
 kf                                  = frames.regcams(1);

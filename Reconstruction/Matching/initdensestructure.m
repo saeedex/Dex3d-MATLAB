@@ -8,4 +8,4 @@ dView.cov                   = zeros(12,pclength);
 dView.valid                 = false(1, pclength);
 dView.res                   = zeros(1,pclength);
 dView.vis                   = ones(1, pclength);
-dView.map                   = [zeros(pclength,1) idx];
+dView.map                   = [zeros(pclength,1) idx zeros(pclength,1)];
