@@ -71,6 +71,7 @@ res                 = res(valid);
 
 dViews{kf}.pos(kdidx,:)  = skpos; 
 dViews{kf}.map(kdidx,1)  = mdidx;
+dViews{mf}.map(mdidx,3)  = kdidx;
 
 %% Visualization
 % mflow             	= zeros(size(Images{mf}.depth));

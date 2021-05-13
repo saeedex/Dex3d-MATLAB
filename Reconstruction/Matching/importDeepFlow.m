@@ -2,6 +2,7 @@ function flow = importDeepFlow(kimage, frames, kf, config)
 path                                = [frames.path 'reconstruction\DenseFlow\RAFT\'];
 dirs                                = dir(strcat(path, '*.npy'));
 frames.deepflow                     = {dirs.name};
+frames.deepflow{kf-1}
 data                                = readNPY([path frames.deepflow{kf-1}]);
 flow                                = zeros(640,480,2);
 %% DIS

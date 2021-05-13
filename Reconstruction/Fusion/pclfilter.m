@@ -10,7 +10,7 @@ kpcl                    = dViews{kf}.pcl;
 
 %----- Visibility check
 valid(vis < minvis)     = false; 
-valid(vis > maxvis)     = false; 
+valid(vis >= maxvis)    = false; 
 
 %----- Geometry check
 if geotresh ~= 0

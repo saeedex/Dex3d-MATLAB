@@ -21,7 +21,7 @@ end
 fileID      = fopen([savepath 'maxdistance.txt'],'w');
 fprintf(fileID, '%6.6f\n', config.dataset.maxz);
 fclose(fileID);
-%% Save cameras in XML format
+%% Save cameras in Bundle OUT format
 fileID      = fopen([savepath 'intrinsic.txt'],'w');
 intr        = SparseMap.frames.K;
 fprintf(fileID, '%6.6f %6.6f %6.6f\n', intr(1,1), intr(1,2), intr(1,3));
@@ -30,7 +30,6 @@ fprintf(fileID, '%6.6f %6.6f %6.6f\n', intr(3,1), intr(3,2), intr(3,3));
 fclose(fileID);
 
 numOfcams   = length(SparseMap.frames.regcams);
-
 for i = 1:numOfcams
 kf          = SparseMap.frames.regcams(i);
 ext         = SparseMap.Views{kf}.pose;

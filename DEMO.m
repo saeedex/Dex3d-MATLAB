@@ -13,7 +13,7 @@ config.save.srec            = 0;
 config                      = sparseConfig(config);
 frames                      = importARCore(frames, config);
 [Images, frames]            = loadFrames(frames, config);
-[Views, frames]             = sparseFeatures(Images, frames, config);
+[Views]                     = extractFeatures(Images, config);
 SparseMap                   = sparseReconstruction(Views, Images, frames, config);
 
 %% Visualization
